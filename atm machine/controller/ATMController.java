@@ -5,6 +5,7 @@ import java.util.List;
 import dao.AccountDAO;
 import model.Account;
 import model.Transaction;
+import strategy.TransactionStrategy;
 
 public class ATMController {
     private static Account currentAccount;
@@ -14,18 +15,11 @@ public class ATMController {
         return currentAccount != null && AccountDAO.verifyPIN(currentAccount, pin);
     }
 
-    public static boolean withdraw(String cardNumber, double amount) {
+    public static boolean performTransaction(String cardNumber, double amount, TransactionStrategy strategy) {
         if (currentAccount == null || !currentAccount.getCardNumber().equals(cardNumber)) {
             currentAccount = AccountDAO.getAccount(cardNumber);
         }
-        return AccountDAO.withdraw(currentAccount, amount);
-    }
-
-    public static boolean deposit(String cardNumber, double amount) {
-        if (currentAccount == null || !currentAccount.getCardNumber().equals(cardNumber)) {
-            currentAccount = AccountDAO.getAccount(cardNumber);
-        }
-        return AccountDAO.deposit(currentAccount, amount);
+        return strategy.execute(currentAccount, amount);
     }
 
     public static String getBalance(String cardNumber) {
