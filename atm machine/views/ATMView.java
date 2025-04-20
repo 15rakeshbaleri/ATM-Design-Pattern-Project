@@ -118,7 +118,22 @@ public class ATMView extends JFrame {
         JButton exitBtn = styleButton("Exit");
 
         // Withdraw Button Action
-        withdrawBtn.addActionListener(e -> handleWithdraw());
+        // withdrawBtn.addActionListener(e -> handleWithdraw());
+
+        // factory pattern
+        withdrawBtn.addActionListener(e -> {
+            String amtStr = JOptionPane.showInputDialog(this, "Enter amount to withdraw:");
+            try {
+                double amount = Double.parseDouble(amtStr);
+                if (ATMController.performTransaction(currentCard, amount, "withdraw")) {
+                    JOptionPane.showMessageDialog(this, "Withdrawal successful!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Transaction failed.");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Invalid amount");
+            }
+        });
 
         // Deposit Button Action
         depositBtn.addActionListener(e -> handleDeposit());
@@ -142,20 +157,22 @@ public class ATMView extends JFrame {
     }
 
     // Handle withdrawal
-    private void handleWithdraw() {
-        String amtStr = JOptionPane.showInputDialog(this, "Enter amount to withdraw:");
-        try {
-            double amount = Double.parseDouble(amtStr);
-            TransactionStrategy withdrawStrategy = new WithdrawStrategy();
-            if (ATMController.performTransaction(currentCard, amount, withdrawStrategy)) {
-                JOptionPane.showMessageDialog(this, "Withdrawal successful!");
-            } else {
-                JOptionPane.showMessageDialog(this, "Insufficient balance or error.");
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Invalid amount");
-        }
-    }
+    // private void handleWithdraw() {
+    // String amtStr = JOptionPane.showInputDialog(this, "Enter amount to
+    // withdraw:");
+    // try {
+    // double amount = Double.parseDouble(amtStr);
+    // TransactionStrategy withdrawStrategy = new WithdrawStrategy();
+    // if (ATMController.performTransaction(currentCard, amount, withdrawStrategy))
+    // {
+    // JOptionPane.showMessageDialog(this, "Withdrawal successful!");
+    // } else {
+    // JOptionPane.showMessageDialog(this, "Insufficient balance or error.");
+    // }
+    // } catch (Exception ex) {
+    // JOptionPane.showMessageDialog(this, "Invalid amount");
+    // }
+    // }
 
     // Handle deposit
     private void handleDeposit() {

@@ -6,6 +6,7 @@ import dao.AccountDAO;
 import model.Account;
 import model.Transaction;
 import strategy.TransactionStrategy;
+import strategy.TransactionStrategyFactory;
 
 public class ATMController {
     private static Account currentAccount;
@@ -16,10 +17,17 @@ public class ATMController {
     }
 
     public static boolean performTransaction(String cardNumber, double amount, TransactionStrategy strategy) {
+        // use passed strategy
         if (currentAccount == null || !currentAccount.getCardNumber().equals(cardNumber)) {
             currentAccount = AccountDAO.getAccount(cardNumber);
         }
         return strategy.execute(currentAccount, amount);
+    }
+
+    public static boolean performTransaction(String cardNumber, double amount, String type) {
+        // use factory to get strategy
+        TransactionStrategy strategy = TransactionStrategyFactory.getStrategy(type);
+        return performTransaction(cardNumber, amount, strategy);
     }
 
     public static String getBalance(String cardNumber) {
