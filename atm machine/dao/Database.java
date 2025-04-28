@@ -9,7 +9,7 @@ public class Database {
 
     private final String URL = "jdbc:mysql://localhost:3306/atm_db";
     private final String USER = "root";
-    private final String PASSWORD = "change to your password";
+    private final String PASSWORD = "rakesh@nie2022";
 
     private Database() {
         try {

@@ -156,31 +156,12 @@ public class ATMView extends JFrame {
         return panel;
     }
 
-    // Handle withdrawal
-    // private void handleWithdraw() {
-    // String amtStr = JOptionPane.showInputDialog(this, "Enter amount to
-    // withdraw:");
-    // try {
-    // double amount = Double.parseDouble(amtStr);
-    // TransactionStrategy withdrawStrategy = new WithdrawStrategy();
-    // if (ATMController.performTransaction(currentCard, amount, withdrawStrategy))
-    // {
-    // JOptionPane.showMessageDialog(this, "Withdrawal successful!");
-    // } else {
-    // JOptionPane.showMessageDialog(this, "Insufficient balance or error.");
-    // }
-    // } catch (Exception ex) {
-    // JOptionPane.showMessageDialog(this, "Invalid amount");
-    // }
-    // }
-
     // Handle deposit
     private void handleDeposit() {
         String amtStr = JOptionPane.showInputDialog(this, "Enter amount to deposit:");
         try {
             double amount = Double.parseDouble(amtStr);
-            TransactionStrategy depositStrategy = new DepositStrategy();
-            if (ATMController.performTransaction(currentCard, amount, depositStrategy)) {
+            if (ATMController.performTransaction(currentCard, amount, "deposit")) {
                 JOptionPane.showMessageDialog(this, "Deposit successful!");
             } else {
                 JOptionPane.showMessageDialog(this, "Deposit failed.");
